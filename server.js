@@ -20,11 +20,11 @@ const server = http.createServer((req, res) => {
       const message = new URLSearchParams(body).get('message');
       console.log('Message received:', message);
       res.writeHead(200, { 'Content-Type': 'text/plain' });
-      res.end(message); // return message to frontend
+      res.end(message);
     });
   }
 });
 
-server.listen(3000, () => {
-  console.log('Server running at http://localhost:3000');
+server.listen(process.env.PORT || 3000, () => {
+  console.log('Server running');
 });
