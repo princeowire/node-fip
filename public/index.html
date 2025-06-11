@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Message Sender</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #1f2937, #4b5563);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #111827;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #f9fafb;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: #1f2937;
+      color: white;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #3b82f6;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+
+    h2 {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #d1d5db;
+    }
+
+    #displayMessage {
+      margin-top: 8px;
+      background-color: #374151;
+      padding: 12px;
+      border-radius: 8px;
+      min-height: 30px;
+      color: #f9fafb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Send a Message</h1>
+    <form id="messageForm">
+      <input type="text" name="message" id="messageInput" placeholder="Type your message..." required />
+      <button type="submit">Send</button>
+    </form>
+
+    <h2>Latest Message:</h2>
+    <p id="displayMessage">No message yet.</p>
+  </div>
+
+  <script>
+    const form = document.getElementById('messageForm');
+    const input = document.getElementById('messageInput');
+    const display = document.getElementById('displayMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new URLSearchParams();
+      formData.append('message', input.value);
+
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+      });
+
+      const text = await res.text();
+      display.textContent = text;
+      input.value = '';
+    });
+  </script>
+</body>
+</html>
